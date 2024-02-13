@@ -7,6 +7,8 @@
 #include <string.h>
 #include <unistd.h> // for sleep function : waits for seconds
 
+//tocar aquests, inicialitzar semaafors i saber on utilitzarlos (NO MES DE 20 LINEAS)
+
 FileManager fm;
 
 void* worker_function(void * arg){

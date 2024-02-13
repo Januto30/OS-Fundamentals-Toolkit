@@ -1,8 +1,16 @@
 #include "fileManager.h"
 
+//tocar aquests
+my_semaphore sem = new my_semaphore();
+
+
 void  initialiseFdProvider(FileManager * fm, int argc, char **argv) {
     // Complete the initialisation
     /* Your rest of the initailisation comes here*/
+    sem.lock = 1;
+    sem.cond= 1; //num de threads q poden pasar
+    sem.i= 0;
+    
     fm->nFilesTotal = argc -1;
     fm->nFilesRemaining = fm->nFilesTotal;
     // Initialise enough memory to  store the arrays
