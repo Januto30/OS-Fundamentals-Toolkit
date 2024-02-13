@@ -23,6 +23,7 @@ void  initialiseFdProvider(FileManager * fm, int argc, char **argv) {
         fm->fileAvailable[i] = 1;
     }
 }
+
 void  destroyFdProvider(FileManager * fm) {
     int i;
     for (i = 0; i < fm->nFilesTotal; i++) {
@@ -33,6 +34,7 @@ void  destroyFdProvider(FileManager * fm) {
     free(fm->fdCRC);
     free(fm->fileFinished);
 }
+
 int getAndReserveFile(FileManager *fm, dataEntry * d) {
     // This function needs to be implemented by the students
     int i;
@@ -50,6 +52,7 @@ int getAndReserveFile(FileManager *fm, dataEntry * d) {
     }             
     return 1;
 }
+
 void unreserveFile(FileManager *fm,dataEntry * d) {
     fm->fileAvailable[d->index] = 1; 
 }

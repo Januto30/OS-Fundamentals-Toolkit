@@ -25,7 +25,6 @@ int get_file_size(char* fname) {
     return size;
 }
 
-
 int read_split(int fin, char * buff, int maxlen, char * ch_end) {
   int i;
   char * is_split = 0;
@@ -38,13 +37,11 @@ int read_split(int fin, char * buff, int maxlen, char * ch_end) {
   return i;
 }
 
-
 void my_sem_init(my_semaphore* sem, int i) {
   sem->i = i;
   pthread_mutex_init(&sem->lock, NULL);
   pthread_cond_init(&sem->cond, NULL);
 }
-
 
 void my_sem_wait(my_semaphore* sem) {
    pthread_mutex_lock(&sem->lock);
@@ -55,15 +52,12 @@ void my_sem_wait(my_semaphore* sem) {
    pthread_mutex_unlock(&sem->lock);
 }
 
-
 void my_sem_signal(my_semaphore* sem) {
    pthread_mutex_lock(&sem->lock);
    sem->i++;
    pthread_cond_signal(&sem->cond);
    pthread_mutex_unlock(&sem->lock);
 }
-
-
 
 int file_lock(int fd, int start, off_t len)
 {
@@ -85,7 +79,6 @@ int file_unlock(int fd, int start, off_t len)
     return fcntl(fd, F_SETLK, &fl);
 }
 
-
 void mon_lock_init(monitor_lock* ml) {
   ml->bInUse=false;
   pthread_mutex_init(&ml->lock, NULL);
@@ -100,7 +93,6 @@ void mon_lock(monitor_lock* ml) {
   ml->bInUse = true;
   pthread_mutex_unlock(&ml->lock);
 }
-
 
 void mon_unlock(monitor_lock* ml) {
   pthread_mutex_lock(&ml->lock);

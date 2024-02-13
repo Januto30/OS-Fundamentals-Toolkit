@@ -10,7 +10,6 @@ typedef struct {
     char * filename;
 } dataEntry;
 
-
 pthread_mutex_t lock;
 
 typedef struct {

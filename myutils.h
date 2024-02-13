@@ -12,7 +12,6 @@
 #include <string.h>     // also from standard C lib : basic string functions like strlen
 #include <pthread.h>
 
-
 void startTimer(int i);   // start timer i
 long endTimer(int i);     // returns millis since timer i started
 
