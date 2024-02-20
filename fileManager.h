@@ -12,6 +12,8 @@ typedef struct {
 
 pthread_mutex_t lock;
 
+int N = 50;
+
 typedef struct {
     int * fdData;
     int * fdCRC;

@@ -21,7 +21,7 @@ void* worker_function(void * arg){
         int nBytesReadData = read(d.fddata, buff, 256);
 
         if (crc != crcSlow(buff, nBytesReadData)) {
-            printf("CRC error in file %d\n", d.filename);
+            printf("CRC error in file %s\n", d.filename);
         }
     }
 }
