@@ -27,15 +27,19 @@ void* worker_function(void * arg){
 }
 
 int main(int argc, char ** argv) {
+
+
     initialiseFdProvider(&fm, argc, argv);
     pthread_t threadID[N];
     for (int i = 0; i < N; ++i) {
+        pthread_mutex_init(&fm->lock,NULL);
         pthread_t thread;
         pthread_create(&threadID[i], NULL, worker_function, NULL);
     }
 
     for (int i = 0; i < N; ++i) {
         pthread_join(threadID[i], NULL);
+        printf("Finished reading");
     }
     destroyFdProvider(&fm);
 }

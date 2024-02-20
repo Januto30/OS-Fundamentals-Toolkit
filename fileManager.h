@@ -18,6 +18,7 @@ typedef struct {
     int * fileFinished;
     int * fileAvailable;
 
+
     int nFilesRemaining;
     int nFilesTotal;
 } FileManager;

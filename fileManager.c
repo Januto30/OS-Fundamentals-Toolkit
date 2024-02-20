@@ -9,8 +9,10 @@ void  initialiseFdProvider(FileManager * fm, int argc, char **argv) {
     /* Your rest of the initailisation comes here*/
     sem.lock = 1;
     sem.cond= 1; //num de threads q poden pasar
-    sem.i= 0;
+    sem.i= 0; //
     
+    pthread_mutex_lock(&fm->lock);
+
     fm->nFilesTotal = argc -1;
     fm->nFilesRemaining = fm->nFilesTotal;
     // Initialise enough memory to  store the arrays
@@ -45,6 +47,12 @@ void  destroyFdProvider(FileManager * fm) {
 
 int getAndReserveFile(FileManager *fm, dataEntry * d) {
     // This function needs to be implemented by the students
+    pthread_mutex_lock(&fm->lock);
+    while(sem.i==0){
+        pthread_cond_wait(&sem.cond,&fm->lock);
+    }
+    
+    
     int i;
     for (i = 0; i < fm->nFilesTotal; ++i) {
         if (fm->fileAvailable[i] && !fm->fileFinished[i]) {
@@ -52,24 +60,36 @@ int getAndReserveFile(FileManager *fm, dataEntry * d) {
             d->fddata = fm->fdData[i];
             d->index = i;
 
-            // You should mark that the file is not available 
-            ??
 
+            sem.i--;
+            pthread_mutex_lock(&fm->lock);
+
+            // You should mark that the file is not available 
+        
             return 0;
         }
-    }             
+    }  
+    pthread_mutex_unlock(&fm->lock);
     return 1;
 }
 
 void unreserveFile(FileManager *fm,dataEntry * d) {
-    fm->fileAvailable[d->index] = 1; 
+    pthread_mutex_lock(&fm->lock);
+    
+    fm->fileAvailable[d->index] = 1;
+
+    pthread_mutex_unlock(&fm->lock); 
 }
 
 void markFileAsFinished(FileManager * fm, dataEntry * d) {
+    pthread_mutex_lock(&fm->lock);
+    
     fm->fileFinished[d->index] = 1;
     fm->nFilesRemaining--; //mark that a file has finished
     if (fm->nFilesRemaining == 0) {
         printf("All files have been processed\n");
         //TO COMPLETE: unblock all waiting threads, if needed
+        pthread_cond_broadcast(&fm->condition);
     }
+    pthread_mutex_unlock(&fm->lock);
 }
